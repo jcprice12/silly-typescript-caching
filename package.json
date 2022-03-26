@@ -6,9 +6,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc --p tsconfig.build.json",
-    "format": "npm run pretty-quick",
+    "format": "pretty-quick",
     "lint": "eslint . --ext .js,.ts --fix",
-    "pretty-quick": "pretty-quick",
     "prepare": "husky install",
     "test": "jest"
   },
