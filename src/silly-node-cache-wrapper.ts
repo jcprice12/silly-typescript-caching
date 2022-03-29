@@ -1,15 +1,19 @@
 import NodeCache = require('node-cache');
 import { SillyCacheWrapper } from './silly-cache-wrapper';
 
-export class SillyNodeCacheWrapper implements SillyCacheWrapper<NodeCache> {
+export class SillyNodeCacheWrapper
+  implements SillyCacheWrapper<string | number, NodeCache>
+{
   constructor(public readonly underlyingCache: NodeCache) {}
-  public getCacheValue<T>(cacheKey: string): Promise<T | undefined> {
-    const cacheValue = this.underlyingCache.get<T>(cacheKey);
+
+  public getCacheValue<V>(cacheKey: string | number): Promise<V | undefined> {
+    const cacheValue = this.underlyingCache.get<V>(cacheKey);
     return Promise.resolve(cacheValue);
   }
-  public async setCacheValue<T>(
-    cacheKey: string,
-    cacheValue: T
+
+  public async setCacheValue<V>(
+    cacheKey: string | number,
+    cacheValue: V
   ): Promise<void> {
     this.underlyingCache.set(cacheKey, cacheValue);
   }

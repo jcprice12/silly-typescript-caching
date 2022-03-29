@@ -6,7 +6,7 @@ import { UseSillyCacheForPromise } from './use-silly-cache.decorator';
 const cacheKey = 'foo';
 const originalMethodReturnValue = 42;
 
-class FakeSillyCache implements SillyCache {
+class FakeSillyCache implements SillyCache<string> {
   private readonly data = new Map<string, any>();
   public getCacheValue<T>(cacheKey: string): Promise<T> {
     const val = this.data.get(cacheKey);
@@ -31,20 +31,20 @@ describe.each`
 `(
   'Given implementation of silly cache: $sillyCacheName',
   ({ makeSillyCache }) => {
-    let cache: SillyCache;
+    let cache: SillyCache<string>;
     beforeEach(() => {
       cache = makeSillyCache();
     });
 
     describe(`Given a decorated method in which the original implementation will yield "${originalMethodReturnValue}"`, () => {
       class ClassUnderTest {
-        constructor(private readonly cache: SillyCache) {}
+        constructor(private readonly cache: SillyCache<string>) {}
 
         private readonly data: Map<string, any> = new Map([
           [cacheKey, originalMethodReturnValue]
         ]);
 
-        @UseSillyCacheForPromise<ClassUnderTest>(
+        @UseSillyCacheForPromise<ClassUnderTest, string>(
           (metadata) => metadata.thiz.cache,
           (_metadata, arg) => arg
         )

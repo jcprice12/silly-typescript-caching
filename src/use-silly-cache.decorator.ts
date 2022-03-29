@@ -6,14 +6,14 @@ export interface DecoratedMethodMetadata<T> {
   propertyKey: string;
 }
 
-export type DecoratedMethodParamFactory<A, B> = (
-  metadata: DecoratedMethodMetadata<B>,
+export type DecoratedMethodParamFactory<P, T> = (
+  metadata: DecoratedMethodMetadata<T>,
   ...decoratedMethodArgs: any[]
-) => A;
+) => P;
 
-export function UseSillyCacheForPromise<T>(
-  getSillyCache: DecoratedMethodParamFactory<SillyCache, T>,
-  getSillyCacheKey: DecoratedMethodParamFactory<string, T>
+export function UseSillyCacheForPromise<T, K>(
+  getSillyCache: DecoratedMethodParamFactory<SillyCache<K>, T>,
+  getSillyCacheKey: DecoratedMethodParamFactory<K, T>
 ) {
   return function (
     target: any,

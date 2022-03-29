@@ -1,5 +1,5 @@
 import { SillyCache } from './silly-cache';
 
-export interface SillyCacheWrapper<T> extends SillyCache {
-  underlyingCache: T;
+export interface SillyCacheWrapper<K, U> extends SillyCache<K> {
+  underlyingCache: U;
 }
